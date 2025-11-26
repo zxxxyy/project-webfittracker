@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fitness Tracker — Reset Password</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body class="auth-page">
+  <main class="split">
+    <aside class="left-panel left-reset"></aside>
+
+    <section class="right-panel">
+      <div class="auth-card">
+        <div class="brand">
+          <div class="brand-icon"></div>
+          <div>
+            <h1 class="brand-title red">Reset Password</h1>
+            <p class="brand-sub">Perjalanan kebugaran Anda dimulai di sini</p>
+          </div>
+        </div>
+
+        <form id="resetForm" class="auth-form" action="#" onsubmit="return false;">
+          <label class="input-wrap">
+            <input id="newPass" type="password" name="newpass" placeholder="New Password" required>
+            <button type="button" class="show-btn" onclick="togglePassword('newPass')">👁</button>
+          </label>
+
+          <label class="input-wrap">
+            <input id="confirmPass" type="password" name="confirm" placeholder="Confirm Password" required>
+            <button type="button" class="show-btn" onclick="togglePassword('confirmPass')">👁</button>
+          </label>
+
+          <button class="btn primary" onclick="fakeReset()">Reset Password</button>
+
+          <p class="muted center">Ingat password? <a href="signin.html">Kembali ke Sign in</a></p>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function togglePassword(id){
+      const e = document.getElementById(id);
+      e.type = e.type === 'password' ? 'text' : 'password';
+    }
+
+    function fakeReset(){
+      alert('Demo reset password. Reset sebenarnya memerlukan token/verifikasi & backend.');
+      // optionally redirect user back to sign in:
+      // window.location.href = 'signin.html';
+    }
+  </script>
+</body>
+</html>

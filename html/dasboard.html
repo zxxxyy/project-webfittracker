@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTracker Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            background: linear-gradient(90deg, #00a8ff 0%, #0077cc 100%);
+            padding: 15px 30px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .main-layout {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #0a0a0a;
+            padding: 20px 0;
+            border-right: 1px solid #222;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 20px 20px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #ff3b5c;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #999;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .menu-item:hover {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .menu-item.active {
+            background: #ff3b5c;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            background: #ff3b5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            background: #ff2847;
+        }
+        
+        .sidebar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-menu {
+            flex: 1;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: #0f0f0f;
+            overflow-y: auto;
+        }
+
+        .welcome-section {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .welcome-title {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .btn-start {
+            background: #ff3b5c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-start:hover {
+            background: #ff2847;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            background: #141414;
+            padding: 60px 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            background: #222;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #444;
+        }
+
+        .empty-title {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .empty-subtitle {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn-view-program {
+            background: transparent;
+            color: #00a8ff;
+            border: 1px solid #00a8ff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .recommendations {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .program-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.3s;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .program-icon {
+            width: 50px;
+            height: 50px;
+            background: #ff3b5c;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .program-title {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .program-description {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .program-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-beginner {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-intermediate {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-advanced {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-program {
+            width: 100%;
+            background: #ff3b5c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Sidebar Right */
+        .sidebar-right {
+            width: 300px;
+            background: #0a0a0a;
+            padding: 30px 20px;
+            border-left: 1px solid #222;
+        }
+
+        .profile-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .profile-header {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .profile-complete {
+            color: #ff3b5c;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-text {
+            color: #999;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .notification-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .notification-title {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .notification-icon.blue {
+            background: rgba(0, 168, 255, 0.2);
+            color: #00a8ff;
+        }
+
+        .notification-icon.green {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+
+        .notification-content h4 {
+            color: white;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .notification-content p {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .motivation-card {
+            background: linear-gradient(135deg, #ff3b5c 0%, #ff6b88 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .motivation-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .motivation-text {
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .motivation-author {
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Dashboard</div>
+        
+        <div class="main-layout">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-menu">
+                    <div class="logo">
+                        <div class="logo-icon">🏃</div>
+                        <span>FitTracker</span>
+                    </div>
+                    
+                    <a href="#" class="menu-item active">
+                        <span class="menu-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="menu-icon">💪</span>
+                        Program Latihan
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="menu-icon">▶️</span>
+                        Mulai Latihan
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="menu-icon">🍎</span>
+                        Asupan Nutrisi
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="menu-icon">🔔</span>
+                        Notifikasi
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="menu-icon">📈</span>
+                        Hasil Saya
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="menu-icon">👤</span>
+                        Profil dan Pengaturan
+                    </a>
+                </div>
+                
+                <button class="logout-btn">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content">
+                <div class="welcome-section">
+                    <h1 class="welcome-title">Selamat Datang di FitTracker!</h1>
+                    <p class="welcome-subtitle">Mulailah perjalanan kebugaranmu hari ini.</p>
+                    <button class="btn-start">Mulai Isi Data Awal</button>
+                </div>
+
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h2 class="empty-title">Kamu belum memiliki data latihan.</h2>
+                    <p class="empty-subtitle">Mulailah untuk mencatat data latihan dan mengikuti program pilihan kamu 💪</p>
+                    <button class="btn-view-program">Lihat Program Latihan</button>
+                </div>
+
+                <div class="recommendations">
+                    <h2 class="section-title">Rekomendasi Program Untukmu</h2>
+                    <div class="program-grid">
+                        <div class="program-card">
+                            <div class="program-icon">💪</div>
+                            <h3 class="program-title">Pemula (Beginner Program)</h3>
+                            <p class="program-description">Program khusus untuk pemula yang baru memulai perjalanan fitness.</p>
+                            <div class="program-meta">
+                                <span class="badge badge-beginner">Pemula</span>
+                            </div>
+                            <button class="btn-program">Mulai</button>
+                        </div>
+
+                        <div class="program-card">
+                            <div class="program-icon">🔥</div>
+                            <h3 class="program-title">Pembentukan Otot</h3>
+                            <p class="program-description">Fokus pada pembentukan massa otot dan kekuatan.</p>
+                            <div class="program-meta">
+                                <span class="badge badge-intermediate">Menengah</span>
+                            </div>
+                            <button class="btn-program">Mulai</button>
+                        </div>
+
+                        <div class="program-card">
+                            <div class="program-icon">⚡</div>
+                            <h3 class="program-title">Penurunan Berat Badan</h3>
+                            <p class="program-description">Program kardio dan diet untuk menurunkan berat badan.</p>
+                            <div class="program-meta">
+                                <span class="badge badge-advanced">Lanjutan</span>
+                            </div>
+                            <button class="btn-program">Mulai</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="sidebar-right">
+                <div class="profile-card">
+                    <h3 class="profile-header">Tingkat Lengkapan Profil</h3>
+                    <div class="profile-complete">30%</div>
+                    <p class="profile-text">Lengkapi profil untuk hasil yang lebih akurat!</p>
+                </div>
+
+                <div class="notification-card">
+                    <h3 class="notification-title">Notifikasi Awal</h3>
+                    <div class="notification-item">
+                        <div class="notification-icon blue">👤</div>
+                        <div class="notification-content">
+                            <h4>Lengkapi profilmu</h4>
+                            <p>Saat ini akun...</p>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon green">➕</div>
+                        <div class="notification-content">
+                            <h4>Aktifkan pelacakan</h4>
+                            <p>Aktifkan...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="motivation-card">
+                    <div class="motivation-icon">💪</div>
+                    <p class="motivation-text">"Setiap progres dimulai dari satu langkah."</p>
+                    <p class="motivation-author">Ayo mulai dengan percaya diri!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu interaction
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // Button interactions
+        document.querySelectorAll('.btn-start, .btn-view-program, .btn-program').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Fitur ini akan segera hadir!');
+            });
+        });
+
+        // Logout
+        document.querySelector('.logout-btn').addEventListener('click', () => {
+            if(confirm('Apakah Anda yakin ingin logout?')) {
+                alert('Anda telah logout');
+            }
+        });
+    </script>
+</body>
+</html>
