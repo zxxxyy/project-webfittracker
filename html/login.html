@@ -40,7 +40,7 @@
 
       <div class="forgot">Lupa Password?</div>
 
-      <button class="btn">SIGN IN</button>
+      <button class="btn" id="loginBtn">SIGN IN</button>
 
       <div class="divider"></div>
 
@@ -58,6 +58,11 @@
 
     </div>
   </div>
-
+ <script>
+document.getElementById("loginBtn").addEventListener("click", function() {
+    // simulasi login
+    window.location.href = "dasboard.html";
+});
+</script>
 </body>
 </html>
